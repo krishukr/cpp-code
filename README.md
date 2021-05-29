@@ -37,3 +37,5 @@
 [【模板】线段树 1](src/LG/lg-P3372.cpp)
 
 [【模板】树状数组 1](src/LG/lg-P3374.cpp)
+
+[【模板】最近公共祖先（LCA）](src/LG/lg-P3379.cpp)
