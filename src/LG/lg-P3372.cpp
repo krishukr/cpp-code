@@ -33,12 +33,19 @@ int main() {
                 std::cin >> x >> y;
                 std::cout << query(1, x, y, 1, n) << "\n";
                 break;
+            default:
+                break;
         }
     }
 
     return 0;
 }
 
+/*
+    @param k: 当前节点位置
+    @param l: 左端点
+    @param r: 右端点
+*/
 void create(int k, int l, int r) {
     if (l == r) {
         sum[k] = nums[l];
@@ -50,6 +57,14 @@ void create(int k, int l, int r) {
     }
 }
 
+/*
+    @param k: 当前节点位置
+    @param l: 修改范围左端点
+    @param r: 修改范围右端点
+    @param x: 线段树左端点
+    @param y: 线段树右端点
+    @param c: 修改值
+*/
 void mod(int k, int l, int r, int x, int y, int c) {
     if (l <= x and y <= r) {
         sum[k] += (y - x + 1) * c;
@@ -73,6 +88,13 @@ void mod(int k, int l, int r, int x, int y, int c) {
     }
 }
 
+/*
+    @param k: 当前节点位置
+    @param l: 查询范围左端点
+    @param r: 查询范围右端点
+    @param x: 线段树左端点
+    @param y: 线段树右端点
+*/
 long long query(int k, int l, int r, int x, int y) {
     if (l <= x and y <= r) {
         return sum[k];

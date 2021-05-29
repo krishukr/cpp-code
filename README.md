@@ -35,3 +35,5 @@
 [【模板】缩点](src/LG/lg-P3387.cpp)
 
 [【模板】线段树 1](src/LG/lg-P3372.cpp)
+
+[【模板】树状数组 1](src/LG/lg-P3374.cpp)
