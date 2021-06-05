@@ -39,3 +39,5 @@
 [【模板】树状数组 1](src/LG/lg-P3374.cpp)
 
 [【模板】最近公共祖先（LCA）](src/LG/lg-P3379.cpp)
+
+[【模板】普通平衡树](src/LG/lg-P3369.cpp)
