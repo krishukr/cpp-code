@@ -41,3 +41,5 @@
 [【模板】最近公共祖先（LCA）](src/LG/lg-P3379.cpp)
 
 [【模板】普通平衡树](src/LG/lg-P3369.cpp)
+
+[【模板】KMP字符串匹配](src/LG/lg-P3375.cpp)
