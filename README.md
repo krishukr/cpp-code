@@ -43,3 +43,9 @@
 [【模板】普通平衡树](src/LG/lg-P3369.cpp)
 
 [【模板】KMP字符串匹配](src/LG/lg-P3375.cpp)
+
+[【模板】AC自动机（简单版）](src/LG/lg-P3808.cpp)
+
+[【模板】AC自动机（加强版）](src/LG/lg-P3796.cpp)
+
+[【模板】字符串哈希](src/LG/lg-P3370.cpp)
