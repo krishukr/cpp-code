@@ -1,10 +1,8 @@
-//未完成
-
 #include <cstring>
 #include <iostream>
 #include <queue>
 
-const int MAX_N = 100010;
+const int MAX_N = 1000010;
 
 int tree[MAX_N][27], exi[MAX_N], nxt[MAX_N];
 int tot, ans;
@@ -55,7 +53,7 @@ void init() {
 void bfs() {
     std::queue<int> q;
     for (int i = 0; i < 26; i++) {
-        tree[0][i] = 0;
+        tree[0][i] = 1;
     }
     q.push(1);
     nxt[1] = 0;
