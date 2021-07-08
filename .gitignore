@@ -1,3 +1,6 @@
 .vscode
 bin
 .DS_Store
+
+*.in
+*.out
