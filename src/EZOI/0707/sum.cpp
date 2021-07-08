@@ -9,6 +9,8 @@ inline int read();
 
 int main() {
     std::ios::sync_with_stdio(false);
+    freopen("sum.in", "r", stdin);
+    freopen("sum.out", "w", stdout);
 
     int n = read(), ans = INT_MIN, tmp = INT_MIN, crt = INT_MIN;
     for (int i = 1; i <= n; i++) {
@@ -26,6 +28,8 @@ int main() {
 
     std::cout << ans << '\n';
 
+    fclose(stdin);
+    fclose(stdout);
     return 0;
 }
 

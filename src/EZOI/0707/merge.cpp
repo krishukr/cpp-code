@@ -25,6 +25,8 @@ void dfs(int n);
 
 int main() {
     std::ios::sync_with_stdio(false);
+    freopen("merge.in", "r", stdin);
+    freopen("merge.out", "w", stdout);
 
     int n = read(), q = read();
     init(n);
@@ -55,6 +57,8 @@ int main() {
         std::cout << ans[i] << ' ';
     }
 
+    fclose(stdin);
+    fclose(stdout);
     return 0;
 }
 

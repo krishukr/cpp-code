@@ -2,14 +2,17 @@
 
 const int MAX_N = 500050;
 
-int num[MAX_N], diff1[MAX_N], diff2[MAX_N];
+long long num[MAX_N], diff1[MAX_N], diff2[MAX_N];
 
 inline int read();
 
 int main() {
     std::ios::sync_with_stdio(false);
+    freopen("sequence.in", "r", stdin);
+    freopen("sequence.out", "w", stdout);
 
-    int n = read(), m = read(), ans = 0;
+    int n = read(), m = read();
+    long long ans = 0;
 
     while (m--) {
         int l = read(), r = read(), s = read(), e = read();
@@ -27,6 +30,8 @@ int main() {
 
     std::cout << ans << '\n';
 
+    fclose(stdin);
+    fclose(stdout);
     return 0;
 }
 
