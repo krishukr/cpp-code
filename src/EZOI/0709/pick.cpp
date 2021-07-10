@@ -3,7 +3,7 @@
 #include <cstring>
 #include <iostream>
 
-const int MAX_N = 500010;
+const int MAX_N = 20000100;
 
 int a[MAX_N], b[MAX_N], w[MAX_N];
 long long c[MAX_N];

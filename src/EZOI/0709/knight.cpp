@@ -2,15 +2,14 @@
 #include <iostream>
 
 const int MAX_N = 100050;
-const int MAX_M = 15;
 
 #pragma region initial
 long long x[MAX_N], y[MAX_N];
-long long max_x[MAX_M], max_y[MAX_M];
-long long min_x[MAX_M], min_y[MAX_M];
-long long max_row[MAX_M], max_col[MAX_M];
-long long min_row[MAX_M], min_col[MAX_M];
-long long ans[MAX_M];
+long long max_x[MAX_N], max_y[MAX_N];
+long long min_x[MAX_N], min_y[MAX_N];
+long long max_row[MAX_N], max_col[MAX_N];
+long long min_row[MAX_N], min_col[MAX_N];
+long long ans[MAX_N];
 
 inline int read();
 #pragma endregion initial
