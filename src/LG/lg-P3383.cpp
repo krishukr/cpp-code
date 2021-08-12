@@ -5,7 +5,7 @@ using namespace std;
 const int MAX_N = 1e8 + 1;
 
 bool is_prime[MAX_N];
-int prime[MAX_N], count;
+int prime[MAX_N], cnt;
 
 int main() {
     ios::sync_with_stdio(false);
@@ -19,7 +19,7 @@ int main() {
     }
     for (int i = 2; i <= n; i++) {
         if (!is_prime[i]) {
-            prime[count++] = i;
+            prime[cnt++] = i;
         }
     }
     for (int i = 0; i < q; i++) {
