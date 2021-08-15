@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 
 const int MAX_N = 2010;
@@ -8,7 +9,7 @@ template <typename T>
 T read();
 
 int main() {
-    std::ios::sync_with_stdio(false);
+    // std::ios::sync_with_stdio(false);
     // freopen("problem.in", "r", stdin);
     // freopen("problem.out", "w", stdout);
 
