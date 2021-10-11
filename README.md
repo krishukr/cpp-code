@@ -71,3 +71,5 @@
 [【模板】高斯消元法](src/LG/lg-P3389.cpp)
 
 [【模板】最小费用最大流](src/LG/lg-P3381.cpp)
+
+[【模板】manacher 算法](src/LG/lg-P3805.cpp)
