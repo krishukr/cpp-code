@@ -73,3 +73,9 @@
 [【模板】最小费用最大流](src/LG/lg-P3381.cpp)
 
 [【模板】manacher 算法](src/LG/lg-P3805.cpp)
+
+[【模板】后缀自动机 (SAM)](src/LG/lg-P3804.cpp)
+
+[【模板】后缀排序](src/LG/lg-P3809.cpp)
+
+[【模板】回文自动机（PAM）](src/LG/lg-P5496.cpp)
