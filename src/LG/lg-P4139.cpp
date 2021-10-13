@@ -5,11 +5,15 @@ typedef long long ll;
 
 const int MAX_N = 10000050;
 
-int phi[MAX_N], pri[MAX_N];
+int pri[MAX_N], phi[MAX_N];
 bool vis[MAX_N];
 int cnt;
 
 void init(int n);
+
+int quick_pow(int a, int b, int p);
+
+int q(int x);
 
 template <typename T>
 T read();
@@ -21,8 +25,8 @@ int main() {
 
     int t = read<int>();
     while (t--) {
-        int n = read<int>();
-        std::cout << phi[n] << ' ' << 1ll * phi[n] * n / 2 << '\n';
+        int x = read<int>();
+        std::cout << q(x) << '\n';
     }
 
     return 0;
@@ -49,6 +53,26 @@ void init(int n) {
         }
     }
 }
+
+int quick_pow(int a, int b, int p) {
+    int res = 1;
+    while (b) {
+        if (b & 1) {
+            res = 1ll * res * a % p;
+        }
+        a = 1ll * a * a % p;
+        b >>= 1;
+    }
+    return res;
+}
+
+int q(int x) {
+    if (x <= 1) {
+        return 0;
+    }
+    return quick_pow(2, q(phi[x]) + phi[x], x);
+}
+
 template <typename T>
 T read() {
     T x = 0, f = 1;
