@@ -79,3 +79,5 @@
 [【模板】后缀排序](src/LG/lg-P3809.cpp)
 
 [【模板】回文自动机（PAM）](src/LG/lg-P5496.cpp)
+
+[【模板】斜率优化动态规划](src/HYDRO/ho-H1059.cpp)
