@@ -89,3 +89,7 @@
 [树的直径](src/LG/lg-P4408.cpp)
 
 [【模板】树同构 \(树上哈希\)](src/LG/lg-P5043.cpp)
+
+[【模板】最小割树 \(Gomory-Hu Tree\)](src/LG/lg-P4897.cpp)
+
+[【模板】舞蹈链 \(DLX\)](src/LG/lg-P4929.cpp)
