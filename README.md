@@ -64,7 +64,7 @@
 
 [【模板】轻重链剖分/树链剖分](src/LG/lg-P3384.cpp)
 
-[树剖板子大全（[国家集训队]旅游）](src/LG/lg-P1505.cpp)
+[树剖板子大全 \(\[国家集训队\]旅游\) ](src/LG/lg-P1505.cpp)
 
 [【模板】左偏树（可并堆）](src/LG/lg-P3377.cpp)
 
@@ -93,3 +93,5 @@
 [【模板】最小割树 \(Gomory-Hu Tree\)](src/LG/lg-P4897.cpp)
 
 [【模板】舞蹈链 \(DLX\)](src/LG/lg-P4929.cpp)
+
+[【模板】2-SAT 问题](src/LG/lg-P4782.cpp)
