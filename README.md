@@ -95,3 +95,5 @@
 [【模板】舞蹈链 \(DLX\)](src/LG/lg-P4929.cpp)
 
 [【模板】2-SAT 问题](src/LG/lg-P4782.cpp)
+
+[A\* \(A-Star\)](src/LG/lg-P1379.cpp)
