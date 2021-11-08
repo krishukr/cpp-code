@@ -97,3 +97,5 @@
 [【模板】2-SAT 问题](src/LG/lg-P4782.cpp)
 
 [A\* \(A-Star\)](src/LG/lg-P1379.cpp)
+
+[【模板】BSGS](src/LG/lg-P3846.cpp)
