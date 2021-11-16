@@ -4,8 +4,9 @@
 
 const int MAX_N = 700050;
 const int MAX_M = 2050;
+const int CHA_SIZE = 35;
 
-int tree[MAX_N][35], exi[MAX_N], nxt[MAX_N], ans[MAX_M];
+int tree[MAX_N][CHA_SIZE], exi[MAX_N], nxt[MAX_N], ans[MAX_M];
 int tot;
 std::string s[MAX_M];
 
@@ -61,7 +62,7 @@ int main() {
 
 void build() {
     std::queue<int> q;
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < CHA_SIZE; i++) {
         if (tree[0][i]) {
             q.push(tree[0][i]);
         }
@@ -69,7 +70,7 @@ void build() {
     while (!q.empty()) {
         int x = q.front();
         q.pop();
-        for (int i = 0; i < 26; i++) {
+        for (int i = 0; i < CHA_SIZE; i++) {
             if (!tree[x][i]) {
                 tree[x][i] = tree[nxt[x]][i];
             } else {
