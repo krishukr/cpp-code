@@ -99,3 +99,5 @@
 [A\* \(A-Star\)](src/LG/lg-P1379.cpp)
 
 [【模板】BSGS](src/LG/lg-P3846.cpp)
+
+[【模板】Lyndon 分解](src/LG/lg-P6114.cpp)
