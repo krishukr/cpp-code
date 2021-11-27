@@ -20,9 +20,9 @@ int main() {
         }
 
         if (x > y) {
-            std::cout << (x + y) / 2 - y << ' ' << y << '\n';
+            std::cout << (x - y) / 2 << ' ' << y << '\n';
         } else {
-            std::cout << x << ' ' << (x + y) / 2 - x << '\n';
+            std::cout << x << ' ' << (y - x) / 2 << '\n';
         }
     }
 
