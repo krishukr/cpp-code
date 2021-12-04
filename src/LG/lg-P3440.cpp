@@ -103,18 +103,30 @@ T read();
 int main() {
     std::ios::sync_with_stdio(false);
 
-    int n = read<int>(), m = read<int>(), s = read<int>(), t = read<int>();
-    auto* mcmf = new MCMF();
-    mcmf->set_st(s, t);
+    int n = read<int>();
+    int s = n + n + 5, t = s + 1;
+    auto* mcmf = new MCMF(s, t);
 
-    for (int i = 1; i <= m; i++) {
-        int u = read<int>(), v = read<int>(), w = read<int>(), c = read<int>();
-        mcmf->create(u, v, w, c);
-        mcmf->create(v, u, 0, -c);
+    for (int i = 1; i <= n; i++) {
+        mcmf->create(s, i, 1, 0);
+        mcmf->create(i, s, 0, 0);
+        mcmf->create(i + n, t, 1, 0);
+        mcmf->create(t, i + n, 0, 0);
+
+        int m = read<int>(), a = read<int>(), b = read<int>(), k = read<int>();
+        for (int j = a; j <= b; j++) {
+            int c = std::abs(j - m) * k;
+            mcmf->create(i, j + n, 1, c);
+            mcmf->create(j + n, i, 0, -c);
+        }
     }
 
     auto ans = mcmf->mcmf();
-    std::cout << ans.first << ' ' << ans.second << '\n';
+    if (ans.first != n) {
+        std::cout << "NIE\n";
+    } else {
+        std::cout << ans.second << '\n';
+    }
 
     return 0;
 }
