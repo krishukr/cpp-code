@@ -101,3 +101,5 @@
 [【模板】BSGS](src/LG/lg-P3846.cpp)
 
 [【模板】Lyndon 分解](src/LG/lg-P6114.cpp)
+
+[【模板】二维凸包](src/LG/lg-P2742.cpp)
