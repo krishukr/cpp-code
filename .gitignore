@@ -1,9 +1,8 @@
 .vscode
-bin
 .DS_Store
+
+**/bin
 
 *.in
 *.out
 *.zip
-
-88w
