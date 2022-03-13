@@ -103,3 +103,7 @@
 [【模板】Lyndon 分解](src/LG/lg-P6114.cpp)
 
 [【模板】二维凸包](src/LG/lg-P2742.cpp)
+
+[【模板】线段树 3](src/LG/lg-P6242.cpp) 线段树维护区间最值操作与区间历史最值 吉司机线段树
+
+[动态开点线段树](src/LG/lg-CF911G.cpp)
