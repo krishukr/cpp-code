@@ -109,3 +109,5 @@
 [动态开点线段树](src/LG/lg-CF911G.cpp)
 
 [【模板】三维凸包](src/LG/lg-P4724.cpp)
+
+[线段树优化建图](src/LG/lg-CF786B.cpp)
