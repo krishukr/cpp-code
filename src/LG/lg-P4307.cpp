@@ -98,6 +98,11 @@ class MCMF {
     }
 };
 
+constexpr int MAX_N = 5050;
+
+int a[MAX_N], b[MAX_N], c[MAX_N], d[MAX_N];
+int cnt[MAX_N];
+
 template <typename T>
 T read();
 
@@ -110,20 +115,45 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    int n, m, s, t;
-    read(n, m, s, t);
+    int n, m;
+    read(n, m);
+    int s = n + m + 5, t = s + 1;
     auto mcmf = std::make_unique<MCMF>(s, t);
-    mcmf->set_st(s, t);
 
-    for (int i = 1; i <= m; i++) {
-        int u, v, w, c;
-        read(u, v, w, c);
-        mcmf->create(u, v, w, c);
-        mcmf->create(v, u, 0, -c);
+    for (int i = 1; i <= n; i++) {
+        read(a[i], b[i], c[i], d[i]);
     }
 
-    auto ans = mcmf->mcmf();
-    std::cout << ans.first << ' ' << ans.second << '\n';
+    for (int i = 1; i <= m; i++) {
+        int x, y;
+        read(x, y);
+        b[x]++;
+        b[y]++;
+        cnt[x]++;
+        cnt[y]++;
+        mcmf->create(s, i, 1, 0);
+        mcmf->create(i, s, 0, 0);
+        mcmf->create(i, x + m, 1, 0);
+        mcmf->create(x + m, i, 0, 0);
+        mcmf->create(i, y + m, 1, 0);
+        mcmf->create(y + m, i, 0, 0);
+    }
+    int ans = 0;
+    for (int i = 1; i <= n; i++) {
+        ans += c[i] * a[i] * a[i] + d[i] * b[i] * b[i];
+    }
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= cnt[i]; j++) {
+            const int cc = c[i] + 2 * a[i] * c[i] + d[i] - 2 * b[i] * d[i];
+            mcmf->create(i + m, t, 1, cc);
+            mcmf->create(t, i + m, 0, -cc);
+            b[i]--;
+            a[i]++;
+        }
+    }
+
+    std::cout << ans + mcmf->mcmf().second << '\n';
 
     return 0;
 }

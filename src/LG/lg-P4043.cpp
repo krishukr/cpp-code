@@ -98,6 +98,10 @@ class MCMF {
     }
 };
 
+constexpr int INF = 0x3f3f3f3f;
+
+int cnt[305];
+
 template <typename T>
 T read();
 
@@ -110,20 +114,45 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    int n, m, s, t;
-    read(n, m, s, t);
-    auto mcmf = std::make_unique<MCMF>(s, t);
-    mcmf->set_st(s, t);
+    int n, ans = 0;
+    read(n);
+    int s = 1, t = n + 1, S = n + 5, T = S + 1;
+    auto mcmf = std::make_unique<MCMF>(S, T);
 
-    for (int i = 1; i <= m; i++) {
-        int u, v, w, c;
-        read(u, v, w, c);
-        mcmf->create(u, v, w, c);
-        mcmf->create(v, u, 0, -c);
+    for (int i = 1; i <= n; i++) {
+        int k;
+        read(k);
+        for (int j = 1; j <= k; j++) {
+            int b, t;
+            read(b, t);
+            cnt[b]++;
+            cnt[i]--;
+            ans += t;
+
+            mcmf->create(i, b, INF, t);
+            mcmf->create(b, i, 0, -t);
+        }
     }
 
-    auto ans = mcmf->mcmf();
-    std::cout << ans.first << ' ' << ans.second << '\n';
+    for (int i = 2; i <= n; i++) {
+        mcmf->create(i, t, INF, 0);
+        mcmf->create(t, i, 0, 0);
+    }
+    mcmf->create(t, s, INF, 0);
+    mcmf->create(s, t, 0, 0);
+
+    for (int i = s; i <= t; i++) {
+        if (cnt[i] > 0) {
+            mcmf->create(S, i, cnt[i], 0);
+            mcmf->create(i, S, 0, 0);
+        }
+        if (cnt[i] < 0) {
+            mcmf->create(i, T, -cnt[i], 0);
+            mcmf->create(T, i, 0, 0);
+        }
+    }
+
+    std::cout << ans + mcmf->mcmf().second << '\n';
 
     return 0;
 }

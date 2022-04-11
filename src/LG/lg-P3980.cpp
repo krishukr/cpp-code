@@ -98,6 +98,8 @@ class MCMF {
     }
 };
 
+constexpr int INF = 0x3f3f3f3f;
+
 template <typename T>
 T read();
 
@@ -110,20 +112,29 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    int n, m, s, t;
-    read(n, m, s, t);
+    int n, m;
+    read(n, m);
+    int s = n + 5, t = s + 1;
     auto mcmf = std::make_unique<MCMF>(s, t);
-    mcmf->set_st(s, t);
 
-    for (int i = 1; i <= m; i++) {
-        int u, v, w, c;
-        read(u, v, w, c);
-        mcmf->create(u, v, w, c);
-        mcmf->create(v, u, 0, -c);
+    for (int i = 1; i <= n; i++) {
+        int x;
+        read(x);
+        mcmf->create(i, i + 1, INF - x, 0);
+        mcmf->create(i + 1, i, 0, 0);
     }
+    for (int i = 1; i <= m; i++) {
+        int x, y, c;
+        read(x, y, c);
+        mcmf->create(x, y + 1, INF, c);
+        mcmf->create(y + 1, x, 0, -c);
+    }
+    mcmf->create(s, 1, INF, 0);
+    mcmf->create(1, s, 0, 0);
+    mcmf->create(n + 1, t, INF, 0);
+    mcmf->create(t, n + 1, 0, 0);
 
-    auto ans = mcmf->mcmf();
-    std::cout << ans.first << ' ' << ans.second << '\n';
+    std::cout << mcmf->mcmf().second << '\n';
 
     return 0;
 }

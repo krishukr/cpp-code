@@ -113,3 +113,5 @@
 [线段树优化建图](src/LG/lg-CF786B.cpp)
 
 [【模板】线段树分裂](src/LG/lg-P5494.cpp)
+
+[【模板】线段树合并](src/LG/lg-P4556.cpp)

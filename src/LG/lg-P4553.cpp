@@ -110,20 +110,35 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    int n, m, s, t;
-    read(n, m, s, t);
+    int n, m;
+    read(n, m);
+    int s = n + n + 5, S = s + 1, t = S + 1;
     auto mcmf = std::make_unique<MCMF>(s, t);
-    mcmf->set_st(s, t);
 
-    for (int i = 1; i <= m; i++) {
-        int u, v, w, c;
-        read(u, v, w, c);
-        mcmf->create(u, v, w, c);
-        mcmf->create(v, u, 0, -c);
+    for (int i = 1; i <= n; i++) {
+        int x;
+        read(x);
+        mcmf->create(s, i, x, 0);
+        mcmf->create(i, s, 0, 0);
+        mcmf->create(S, n + i, x, 0);
+        mcmf->create(n + i, S, 0, 0);
+        mcmf->create(n + i, t, x, 0);
+        mcmf->create(t, n + i, 0, 0);
     }
+    for (int i = 1; i <= n; i++) {
+        for (int j = i + 1; j <= n; j++) {
+            int x;
+            read(x);
+            if (x != -1) {
+                mcmf->create(i, n + j, 0x3f3f3f3f, x);
+                mcmf->create(n + j, i, 0, -x);
+            }
+        }
+    }
+    mcmf->create(s, S, m, 0);
+    mcmf->create(S, s, 0, 0);
 
-    auto ans = mcmf->mcmf();
-    std::cout << ans.first << ' ' << ans.second << '\n';
+    std::cout << mcmf->mcmf().second << '\n';
 
     return 0;
 }
