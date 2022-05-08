@@ -115,3 +115,7 @@
 [【模板】线段树分裂](src/LG/lg-P5494.cpp)
 
 [【模板】线段树合并](src/LG/lg-P4556.cpp)
+
+[【模板】树上 k 级祖先](src/LG/lg-P5903.cpp)
+
+[【模板】扩展中国剩余定理（EXCRT）](src/LG/lg-P4777.cpp)
