@@ -119,3 +119,5 @@
 [【模板】树上 k 级祖先](src/LG/lg-P5903.cpp)
 
 [【模板】扩展中国剩余定理（EXCRT）](src/LG/lg-P4777.cpp)
+
+[可持久化 01 Trie](src/LG/lg-P4735.cpp)
