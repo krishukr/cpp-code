@@ -121,3 +121,5 @@
 [【模板】扩展中国剩余定理（EXCRT）](src/LG/lg-P4777.cpp)
 
 [可持久化 01 Trie](src/LG/lg-P4735.cpp)
+
+[【模板】最长公共子序列](src/LG/lg-P1439.cpp)
