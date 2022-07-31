@@ -123,3 +123,7 @@
 [可持久化 01 Trie](src/LG/lg-P4735.cpp)
 
 [【模板】最长公共子序列](src/LG/lg-P1439.cpp)
+
+[【模板】差分约束算法](src/LG/lg-P5960.cpp)
+
+[【模板】负环](src/LG/lg-P3385.cpp)
