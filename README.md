@@ -127,3 +127,5 @@
 [【模板】差分约束算法](src/LG/lg-P5960.cpp)
 
 [【模板】负环](src/LG/lg-P3385.cpp)
+
+[【模板】二元一次不定方程 (exgcd)](src/LG/lg-P5656.cpp)
