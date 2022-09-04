@@ -129,3 +129,7 @@
 [【模板】负环](src/LG/lg-P3385.cpp)
 
 [【模板】二元一次不定方程 (exgcd)](src/LG/lg-P5656.cpp)
+
+[【模板】Matrix-Tree 定理](src/LG/lg-P6178.cpp)
+
+[【模板】LGV 引理](src/LG/lg-P6657.cpp)
