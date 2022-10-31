@@ -1,46 +1,86 @@
-#include <cstring>
+#include <algorithm>
+#include <cstdio>
 #include <iostream>
 
-using namespace std;
+constexpr int MAX_N = 200050;
 
-const int MAX_N = 5001;
-int map[MAX_N][MAX_N];
-bool is_view[MAX_N];
+int fa[MAX_N];
+
+struct {
+    int x;
+    int y;
+    int z;
+} e[MAX_N];
+
+int find(int x) { return fa[x] == x ? x : fa[x] = find(fa[x]); }
+
+template <typename T>
+T read();
+
+template <typename T>
+void read(T& t);
+
+template <typename T, typename... Args>
+void read(T& t, Args&... rest);
 
 int main() {
-    int n, min[MAX_N], m;
-    cin >> n >> m;
-    memset(map, 0x7f, sizeof(map));
+    std::ios::sync_with_stdio(false);
+
+    int n, m;
+    read(n, m);
+    for (int i = 1; i <= n; i++) {
+        fa[i] = i;
+    }
     for (int i = 1; i <= m; i++) {
-        int x, y, c;
-        cin >> x >> y >> c;
-        if (map[x][y] != 0x7f) {
-            c = std::min(c, map[x][y]);
-        }
-        map[x][y] = c;
-        map[y][x] = c;
+        int x, y, z;
+        read(x, y, z);
+        e[i] = {x, y, z};
     }
-    memset(min, 0x7f - 1, sizeof(min));
-    min[1] = 0;
-    for (int i = 1; i <= n; i++) {
-        int lowest = 0;
-        for (int j = 1; j <= n; j++) {
-            if (!is_view[j] and (min[j] < min[lowest])) {
-                lowest = j;
-            }
+
+    std::sort(e + 1, e + m + 1,
+              [](const auto& a, const auto& b) { return a.z < b.z; });
+    int ans{}, cnt{};
+    for (int i = 1; i <= m; i++) {
+        const auto x = find(e[i].x), y = find(e[i].y);
+        if (x == y) {
+            continue;
         }
-        is_view[lowest] = true;
-        for (int j = 1; j <= n; j++) {
-            if (!is_view[j] and (map[lowest][j] < min[j])) {
-                min[j] = map[lowest][j];
-            }
+        ans += e[i].z;
+        fa[x] = y;
+        cnt++;
+
+        if (cnt == n - 1) {
+            std::cout << ans << '\n';
+            return 0;
         }
     }
-    int total = 0;
-    for (int i = 1; i <= n; i++) {
-        total += min[i];
-    }
-    cout << total;
+    std::cout << "orz" << '\n';
 
     return 0;
+}
+
+template <typename T>
+T read() {
+    T x = 0, f = 1;
+    char ch = getchar_unlocked();
+    while (!isdigit(ch)) {
+        if (ch == '-') f = -1;
+        ch = getchar_unlocked();
+    }
+    while (isdigit(ch)) {
+        x = x * 10 + ch - 48;
+        ch = getchar_unlocked();
+    }
+    return x * f;
+}
+
+template <typename T>
+void read(T& t) {
+    t = read<T>();
+}
+
+template <typename T, typename... Args>
+void read(T& t, Args&... rest) {
+    t = read<T>();
+    read(rest...);
 }
