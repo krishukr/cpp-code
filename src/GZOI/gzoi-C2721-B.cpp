@@ -1,24 +1,11 @@
+#include <algorithm>
+#include <climits>
 #include <cstdio>
 #include <iostream>
 
-constexpr int MAX_N = 305;
+constexpr int MAX_N = 1000050;
 
-struct {
-    int v;
-    int nxt;
-} node[MAX_N];
-
-int head[MAX_N];
-int cnt;
-
-void create(int u, int v);
-
-int f[MAX_N][MAX_N];
-int siz[MAX_N];
-
-void dfs(int x);
-
-int n, m;
+int a[MAX_N];
 
 template <typename T>
 T read();
@@ -32,36 +19,33 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    read(n, m);
+    int n, m, k;
+    read(n, m, k);
     for (int i = 1; i <= n; i++) {
-        int x;
-        read(x, f[i][1]);
-        create(x, i);
+        read(a[i]);
     }
-    dfs(0);
-    std::cout << f[0][m + 1] << '\n';
+    std::sort(a + 1, a + n + 1);
 
-    return 0;
-}
-
-void create(int u, int v) {
-    node[++cnt].v = v;
-    node[cnt].nxt = head[u];
-    head[u] = cnt;
-}
-
-void dfs(int x) {
-    siz[x] = 1;
-    for (int i = head[x]; i; i = node[i].nxt) {
-        const auto v = node[i].v;
-        dfs(v);
-        siz[x] += siz[v];
-        for (int j = m + 1; j >= 1; j--) {
-            for (int k = std::min(siz[x], j - 1); k >= 0; k--) {
-                f[x][j] = std::max(f[x][j], f[v][k] + f[x][j - k]);
+    int ans{INT_MAX};
+    for (int i = 2; i <= n; i++) {
+        const auto d = a[i] - a[i - 1];
+        if (d > ans) {
+            continue;
+        }
+        if ((d << 1) <= k) {
+            ans = std::min(ans, d);
+        } else {
+            for (int j = 0; j <= k; j++) {
+                ans = std::min(ans, (a[i] + j) ^ (a[i - 1] + j));
             }
         }
     }
+    std::cout << ans << '\n';
+
+    std::cout << std::flush;
+    fclose(stdin);
+    fclose(stdout);
+    return 0;
 }
 
 template <typename T>

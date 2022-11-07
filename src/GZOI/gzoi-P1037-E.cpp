@@ -1,22 +1,10 @@
 #include <cstdio>
 #include <iostream>
 
-constexpr int MAX_N = 10050;
+constexpr int MAX_N = 100050;
 
-struct {
-    int v;
-    int nxt;
-} node[MAX_N << 1];
-
-int head[MAX_N];
-int cnt;
-
-void create(int u, int v);
-
-int s[MAX_N], gs[MAX_N];
-int v[MAX_N];
-
-int dfs(int x, int f);
+int a[MAX_N];
+int f[2][MAX_N];
 
 template <typename T>
 T read();
@@ -33,37 +21,24 @@ int main() {
     int n;
     read(n);
     for (int i = 1; i <= n; i++) {
-        read(v[i]);
+        read(a[i]);
     }
-    for (int i = 1; i < n; i++) {
-        int x, y;
-        read(x, y);
-        create(x, y);
-        create(y, x);
+    f[0][1] = f[1][1] = 1;
+    for (int i = 2; i <= n; i++) {
+        if (a[i] > a[i - 1]) {
+            f[0][i] = f[1][i - 1] + 1;
+        } else {
+            f[0][i] = f[0][i - 1];
+        }
+        if (a[i] < a[i - 1]) {
+            f[1][i] = f[0][i - 1] + 1;
+        } else {
+            f[1][i] = f[1][i - 1];
+        }
     }
-    std::cout << dfs(1, 0) << '\n';
+    std::cout << std::max(f[0][n], f[1][n]) << '\n';
 
     return 0;
-}
-
-void create(int u, int v) {
-    node[++cnt].v = v;
-    node[cnt].nxt = head[u];
-    head[u] = cnt;
-}
-
-int dfs(int x, int f) {
-    for (int i = head[x]; i; i = node[i].nxt) {
-        int v = node[i].v;
-        if (v == f) {
-            continue;
-        }
-        s[x] += dfs(v, x);
-    }
-    if (f) {
-        gs[f] += s[x];
-    }
-    return std::max(s[x], gs[x] + v[x]);
 }
 
 template <typename T>

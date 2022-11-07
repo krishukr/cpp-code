@@ -1,24 +1,21 @@
 #include <cstdio>
 #include <iostream>
 
-constexpr int MAX_N = 305;
+constexpr int MAX_N = 1505;
 
 struct {
     int v;
     int nxt;
-} node[MAX_N];
+} node[MAX_N << 1];
 
 int head[MAX_N];
 int cnt;
 
 void create(int u, int v);
 
-int f[MAX_N][MAX_N];
-int siz[MAX_N];
+int f[2][MAX_N];
 
-void dfs(int x);
-
-int n, m;
+void dfs(int x, int fa);
 
 template <typename T>
 T read();
@@ -32,14 +29,22 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    read(n, m);
+    int n;
+    read(n);
     for (int i = 1; i <= n; i++) {
-        int x;
-        read(x, f[i][1]);
-        create(x, i);
+        int x, y;
+        read(x, y);
+        x++;
+        for (int i = 1; i <= y; i++) {
+            int z;
+            read(z);
+            z++;
+            create(x, z);
+            create(z, x);
+        }
     }
-    dfs(0);
-    std::cout << f[0][m + 1] << '\n';
+    dfs(1, 0);
+    std::cout << std::min(f[0][1], f[1][1]) << '\n';
 
     return 0;
 }
@@ -50,17 +55,17 @@ void create(int u, int v) {
     head[u] = cnt;
 }
 
-void dfs(int x) {
-    siz[x] = 1;
+void dfs(int x, int fa) {
+    f[0][x] = 0;
+    f[1][x] = 1;
     for (int i = head[x]; i; i = node[i].nxt) {
         const auto v = node[i].v;
-        dfs(v);
-        siz[x] += siz[v];
-        for (int j = m + 1; j >= 1; j--) {
-            for (int k = std::min(siz[x], j - 1); k >= 0; k--) {
-                f[x][j] = std::max(f[x][j], f[v][k] + f[x][j - k]);
-            }
+        if (v == fa) {
+            continue;
         }
+        dfs(v, x);
+        f[0][x] += f[1][v];
+        f[1][x] += std::min(f[0][v], f[1][v]);
     }
 }
 

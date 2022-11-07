@@ -1,22 +1,17 @@
+#include <algorithm>
+#include <cmath>
 #include <cstdio>
 #include <iostream>
 
-constexpr int MAX_N = 10050;
+using ll = long long;
+
+constexpr int MAX_N = 100050;
 
 struct {
-    int v;
-    int nxt;
-} node[MAX_N << 1];
-
-int head[MAX_N];
-int cnt;
-
-void create(int u, int v);
-
-int s[MAX_N], gs[MAX_N];
-int v[MAX_N];
-
-int dfs(int x, int f);
+    double d;
+    int i;
+    ll c;
+} a[MAX_N];
 
 template <typename T>
 T read();
@@ -30,40 +25,31 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    int n;
-    read(n);
+    ll n, x, y;
+    read(n, x, y);
     for (int i = 1; i <= n; i++) {
-        read(v[i]);
+        ll xi, yi, c;
+        read(xi, yi, c);
+        a[i] = {std::sqrt((yi - y) * (yi - y) + (xi - x) * (xi - x)), i, c};
     }
-    for (int i = 1; i < n; i++) {
-        int x, y;
-        read(x, y);
-        create(x, y);
-        create(y, x);
+    std::sort(a + 1, a + n + 1, [](const auto& a, const auto& b) {
+        return a.d == b.d ? a.i < b.i : a.d < b.d;
+    });
+
+    int ans{}, cr{}, cb{};
+    for (int i = 1; i <= n; i++) {
+        if (a[i].c == 1) {
+            cr++;
+        } else {
+            cb++;
+        }
+        if (cr >= cb) {
+            ans++;
+        }
     }
-    std::cout << dfs(1, 0) << '\n';
+    std::cout << ans << '\n';
 
     return 0;
-}
-
-void create(int u, int v) {
-    node[++cnt].v = v;
-    node[cnt].nxt = head[u];
-    head[u] = cnt;
-}
-
-int dfs(int x, int f) {
-    for (int i = head[x]; i; i = node[i].nxt) {
-        int v = node[i].v;
-        if (v == f) {
-            continue;
-        }
-        s[x] += dfs(v, x);
-    }
-    if (f) {
-        gs[f] += s[x];
-    }
-    return std::max(s[x], gs[x] + v[x]);
 }
 
 template <typename T>

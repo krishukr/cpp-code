@@ -1,24 +1,27 @@
 #include <cstdio>
+#include <cstdlib>
 #include <iostream>
 
-constexpr int MAX_N = 305;
+using ll = long long;
+
+constexpr int MAX_N = 105;
 
 struct {
     int v;
     int nxt;
-} node[MAX_N];
+} node[MAX_N << 1];
 
 int head[MAX_N];
 int cnt;
 
 void create(int u, int v);
 
-int f[MAX_N][MAX_N];
-int siz[MAX_N];
+int c[MAX_N], v[MAX_N];
+ll f[MAX_N][MAX_N];
 
-void dfs(int x);
+void dfs(int x, int fa);
 
-int n, m;
+int n, p;
 
 template <typename T>
 T read();
@@ -32,14 +35,19 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    read(n, m);
+    read(n, p);
     for (int i = 1; i <= n; i++) {
-        int x;
-        read(x, f[i][1]);
-        create(x, i);
+        read(c[i], v[i]);
     }
-    dfs(0);
-    std::cout << f[0][m + 1] << '\n';
+    for (int i = 1; i < n; i++) {
+        int x, y;
+        read(x, y);
+        create(x, y);
+        create(y, x);
+    }
+
+    dfs(1, 0);
+    std::cout << f[1][p] << '\n';
 
     return 0;
 }
@@ -50,15 +58,19 @@ void create(int u, int v) {
     head[u] = cnt;
 }
 
-void dfs(int x) {
-    siz[x] = 1;
+void dfs(int x, int fa) {
+    for (int i = c[x]; i <= p; i++) {
+        f[x][i] = v[x];
+    }
     for (int i = head[x]; i; i = node[i].nxt) {
         const auto v = node[i].v;
-        dfs(v);
-        siz[x] += siz[v];
-        for (int j = m + 1; j >= 1; j--) {
-            for (int k = std::min(siz[x], j - 1); k >= 0; k--) {
-                f[x][j] = std::max(f[x][j], f[v][k] + f[x][j - k]);
+        if (v == fa) {
+            continue;
+        }
+        dfs(v, x);
+        for (int j = p; j >= c[x]; j--) {
+            for (int k = j; k >= c[x]; k--) {
+                f[x][j] = std::max(f[x][j], f[x][k] + f[v][j - k]);
             }
         }
     }

@@ -1,24 +1,21 @@
 #include <cstdio>
 #include <iostream>
 
-constexpr int MAX_N = 305;
+constexpr int MAX_N = 10050;
 
 struct {
     int v;
     int nxt;
-} node[MAX_N];
+} node[MAX_N << 1];
 
 int head[MAX_N];
 int cnt;
 
 void create(int u, int v);
 
-int f[MAX_N][MAX_N];
-int siz[MAX_N];
+int s[MAX_N], gs[MAX_N];
 
-void dfs(int x);
-
-int n, m;
+int dfs(int x, int f);
 
 template <typename T>
 T read();
@@ -32,14 +29,16 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    read(n, m);
-    for (int i = 1; i <= n; i++) {
-        int x;
-        read(x, f[i][1]);
-        create(x, i);
+    int n;
+    read(n);
+    for (int i = 1; i < n; i++) {
+        int x, y;
+        read(x, y);
+        x++, y++;
+        create(x, y);
+        create(y, x);
     }
-    dfs(0);
-    std::cout << f[0][m + 1] << '\n';
+    std::cout << dfs(1, 0) << '\n';
 
     return 0;
 }
@@ -50,18 +49,18 @@ void create(int u, int v) {
     head[u] = cnt;
 }
 
-void dfs(int x) {
-    siz[x] = 1;
+int dfs(int x, int f) {
     for (int i = head[x]; i; i = node[i].nxt) {
-        const auto v = node[i].v;
-        dfs(v);
-        siz[x] += siz[v];
-        for (int j = m + 1; j >= 1; j--) {
-            for (int k = std::min(siz[x], j - 1); k >= 0; k--) {
-                f[x][j] = std::max(f[x][j], f[v][k] + f[x][j - k]);
-            }
+        int v = node[i].v;
+        if (v == f) {
+            continue;
         }
+        s[x] += dfs(v, x);
     }
+    if (f) {
+        gs[f] += s[x];
+    }
+    return std::max(s[x], gs[x] + 1);
 }
 
 template <typename T>
