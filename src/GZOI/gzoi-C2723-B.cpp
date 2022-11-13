@@ -6,20 +6,31 @@ using ll = long long;
 constexpr int MAX_N = 100050;
 constexpr int MAX_M = 25;
 
+struct Mat {
+    int m[MAX_M][MAX_M];
+
+    Mat(const int n);
+    Mat operator*(const Mat& x) const;
+};
+
 int nxt[MAX_M];
 int f[MAX_N][MAX_M], g[MAX_M][MAX_M];
+int n, m, MOD;
 
 void init(std::string s);
+
+template <typename T, typename U>
+T quick_pow(T a, U b);
 
 int main() {
     std::ios::sync_with_stdio(false);
 
-    ll n, m, MOD;
     std::cin >> n >> m >> MOD;
     std::string s;
     std::cin >> s;
     init(s);
 
+    Mat a{0}, b{0};
     nxt[0] = 0;
     for (int i = 0; i < m; i++) {
         for (char j = '0'; j <= '9'; j++) {
@@ -31,29 +42,46 @@ int main() {
                 k++;
             }
             if (k < m) {
-                g[i][k]++;
+                b.m[i][k]++;
             }
         }
     }
 
-    f[0][0] = 1;
-    for (int i = 1; i <= n; i++) {
-        for (int j = 0; j < m; j++) {
-            for (int k = 0; k < m; k++) {
-                f[i][j] += f[i - 1][k] * g[k][j] % MOD;
-                f[i][j] %= MOD;
-            }
-        }
-    }
-
-    ll ans{};
+    b = quick_pow(b, n);
+    a.m[0][0] = 1;
+    a = a * b;
+    int ans{};
     for (int i = 0; i < m; i++) {
-        ans += f[n][i];
+        ans += a.m[0][i];
         ans %= MOD;
     }
     std::cout << ans << '\n';
 
     return 0;
+}
+
+Mat::Mat(const int n) {
+    for (int i = 0; i < MAX_M; i++) {
+        for (int j = 0; j < MAX_M; j++) {
+            this->m[i][j] = 0;
+        }
+    }
+    for (int i = 0; i < MAX_M; i++) {
+        this->m[i][i] = n;
+    }
+}
+
+Mat Mat::operator*(const Mat& x) const {
+    Mat r{0};
+    for (int i = 0; i < MAX_M; i++) {
+        for (int k = 0; k < MAX_M; k++) {
+            for (int j = 0; j < MAX_M; j++) {
+                r.m[i][j] += m[i][k] * x.m[k][j];
+                r.m[i][j] %= MOD;
+            }
+        }
+    }
+    return r;
 }
 
 void init(std::string s) {
@@ -66,4 +94,17 @@ void init(std::string s) {
             j = nxt[j];
         }
     }
+}
+
+template <typename T, typename U>
+T quick_pow(T a, U b) {
+    T r{1};
+    while (b) {
+        if (b & 1) {
+            r = r * a;
+        }
+        a = a * a;
+        b >>= 1;
+    }
+    return r;
 }
