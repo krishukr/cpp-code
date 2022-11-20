@@ -1,30 +1,16 @@
 #include <algorithm>
 #include <cstdio>
-#include <functional>
 #include <iostream>
-#include <memory>
 #include <queue>
-#include <vector>
 
 using ll = long long;
 
-template <typename T>
-using pq = std::priority_queue<T, std::vector<T>, std::greater<T>>;
-
 constexpr int MAX_N = 100050;
 
-class Solution {
-    struct S {
-        int a;
-        int b;
-    } s[MAX_N];
-
-   public:
-    Solution() = default;
-    ~Solution() = default;
-
-    void solve();
-};
+struct A {
+    ll x;
+    ll t;
+} a[MAX_N];
 
 template <typename T>
 T read();
@@ -38,45 +24,34 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    int T;
-    read(T);
-    while (T--) {
-        auto solution = std::make_unique<Solution>();
-        solution->solve();
-    }
-
-    return 0;
-}
-
-void Solution::solve() {
-    int n, _first;
-    read(n, _first);
+    ll n, m;
+    read(n, m);
     for (int i = 1; i <= n; i++) {
-        read(s[i].a);
+        read(a[i].x, a[i].t);
     }
-    for (int i = 1; i <= n; i++) {
-        read(s[i].b);
-    }
+    std::sort(a + 1, a + n + 1,
+              [](const A& x, const A& y) { return x.x < y.x; });
 
-    std::sort(s + 1, s + n + 1, [](const S& x, const S& y) {
-        return x.a == y.a ? x.b < y.b : x.a > y.a;
-    });
-
-    pq<int> q;
+    std::priority_queue<ll> q;
+    ll crt{}, cra{}, ans{};
     for (int i = 1; i <= n; i++) {
-        q.push(s[i].b);
-        const auto m = (i + _first) / 2;
-        if (q.size() > m) {
+        crt += a[i].x - a[i - 1].x + a[i].t;
+        cra++;
+        q.push(a[i].t);
+
+        while (!q.empty() and crt > m) {
+            cra--;
+            crt -= q.top();
             q.pop();
         }
-    }
-
-    ll ans{};
-    while (!q.empty()) {
-        ans += q.top();
-        q.pop();
+        if (crt > m) {
+            break;
+        }
+        ans = std::max(ans, cra);
     }
     std::cout << ans << '\n';
+
+    return 0;
 }
 
 template <typename T>

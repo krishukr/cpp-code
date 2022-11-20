@@ -1,30 +1,15 @@
 #include <algorithm>
 #include <cstdio>
-#include <functional>
 #include <iostream>
-#include <memory>
 #include <queue>
+#include <utility>
 #include <vector>
 
 using ll = long long;
 
-template <typename T>
-using pq = std::priority_queue<T, std::vector<T>, std::greater<T>>;
+constexpr int MAX_N = 250050;
 
-constexpr int MAX_N = 100050;
-
-class Solution {
-    struct S {
-        int a;
-        int b;
-    } s[MAX_N];
-
-   public:
-    Solution() = default;
-    ~Solution() = default;
-
-    void solve();
-};
+int a[MAX_N], b[MAX_N];
 
 template <typename T>
 T read();
@@ -38,45 +23,42 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
-    int T;
-    read(T);
-    while (T--) {
-        auto solution = std::make_unique<Solution>();
-        solution->solve();
-    }
-
-    return 0;
-}
-
-void Solution::solve() {
-    int n, _first;
-    read(n, _first);
+    int n;
+    read(n);
     for (int i = 1; i <= n; i++) {
-        read(s[i].a);
+        read(a[i]);
     }
     for (int i = 1; i <= n; i++) {
-        read(s[i].b);
+        read(b[i]);
     }
 
-    std::sort(s + 1, s + n + 1, [](const S& x, const S& y) {
-        return x.a == y.a ? x.b < y.b : x.a > y.a;
-    });
-
-    pq<int> q;
+    ll crt{};
+    std::priority_queue<std::pair<ll, int>> q;
     for (int i = 1; i <= n; i++) {
-        q.push(s[i].b);
-        const auto m = (i + _first) / 2;
-        if (q.size() > m) {
+        crt += a[i];
+        if (!q.empty() and crt <= b[i] and b[i] < q.top().first) {
+            crt += q.top().first;
             q.pop();
+        }
+        if (crt >= b[i]) {
+            crt -= b[i];
+            q.push({b[i], i});
         }
     }
 
-    ll ans{};
+    std::vector<int> ans;
     while (!q.empty()) {
-        ans += q.top();
+        ans.push_back(q.top().second);
         q.pop();
     }
-    std::cout << ans << '\n';
+    // std::sort(ans.begin(), ans.end());
+    std::cout << ans.size() << '\n';
+    for (const auto& i : ans) {
+        std::cout << i << ' ';
+    }
+    std::cout << '\n';
+
+    return 0;
 }
 
 template <typename T>
