@@ -1,118 +1,125 @@
-#include <iostream>
+#include <bits/stdc++.h>
 
-const int MAX_N = 100010;
+using ll = long long;
 
-long long nums[MAX_N << 2], sum[MAX_N << 2], tag[MAX_N << 2];
+constexpr int MAX_N = 100050;
 
-void create(int k, int l, int r);
+class SegTree {
+   private:
+    struct {
+        ll a;
+        ll t;
+    } tree[MAX_N << 2];
 
-void mod(int k, int l, int r, int x, int y, int c);
+    void pushdown(uint x, int l, int r);
 
-long long query(int k, int l, int r, int x, int y);
+    void update(uint x);
+
+    void build(uint x, int l, int r);
+
+   public:
+    SegTree(int n);
+    ~SegTree() = default;
+
+    void add(uint x, int l, int r, int ml, int mr, int k);
+
+    ll query(uint x, int l, int r, int ql, int qr);
+};
+
+ll a[MAX_N];
 
 int main() {
     std::ios::sync_with_stdio(false);
+    std::cin.tie(0);
 
     int n, m;
     std::cin >> n >> m;
     for (int i = 1; i <= n; i++) {
-        std::cin >> nums[i];
+        std::cin >> a[i];
     }
-    create(1, 1, n);
+    auto segTree = std::make_unique<SegTree>(n);
 
     while (m--) {
         int op, x, y, k;
-        std::cin >> op;
-
-        switch (op) {
-            case 1:
-                std::cin >> x >> y >> k;
-                mod(1, x, y, 1, n, k);
-                break;
-            case 2:
-                std::cin >> x >> y;
-                std::cout << query(1, x, y, 1, n) << "\n";
-                break;
-            default:
-                break;
+        std::cin >> op >> x >> y;
+        if (op == 1) {
+            std::cin >> k;
+            segTree->add(1, 1, n, x, y, k);
+        } else {
+            std::cout << segTree->query(1, 1, n, x, y) << '\n';
         }
     }
 
+    std::cout << std::flush;
     return 0;
 }
 
-/*
-    @param k: 当前节点位置
-    @param l: 左端点
-    @param r: 右端点
-*/
-void create(int k, int l, int r) {
+#define lc (x << 1)
+#define rc (x << 1 | 1)
+
+SegTree::SegTree(int n) { build(1, 1, n); }
+
+void SegTree::build(uint x, int l, int r) {
     if (l == r) {
-        sum[k] = nums[l];
+        tree[x].a = a[l];
+        return;
     } else {
-        int mid = (l + r) / 2;
-        create(k * 2, l, mid);
-        create(k * 2 + 1, mid + 1, r);
-        sum[k] = sum[k * 2] + sum[k * 2 + 1];
+        const int mid = (l + r) >> 1;
+        build(lc, l, mid);
+        build(rc, mid + 1, r);
+        update(x);
     }
 }
 
-/*
-    @param k: 当前节点位置
-    @param l: 修改范围左端点
-    @param r: 修改范围右端点
-    @param x: 线段树左端点
-    @param y: 线段树右端点
-    @param c: 修改值
-*/
-void mod(int k, int l, int r, int x, int y, int c) {
-    if (l <= x and y <= r) {
-        sum[k] += (y - x + 1) * c;
-        tag[k] += c;
+void SegTree::update(uint x) { tree[x].a = tree[lc].a + tree[rc].a; }
+
+void SegTree::pushdown(uint x, int l, int r) {
+    const int mid = (l + r) >> 1;
+    tree[lc].t += tree[x].t;
+    tree[rc].t += tree[x].t;
+    tree[lc].a += tree[x].t * (mid - l + 1);
+    tree[rc].a += tree[x].t * (r - mid);
+    tree[x].t = 0;
+}
+
+void SegTree::add(uint x, int l, int r, int ml, int mr, int k) {
+    if (ml <= l and r <= mr) {
+        tree[x].a += k * (r - l + 1);
+        tree[x].t += k;
+        return;
     } else {
-        int mid = (x + y) / 2;
-        if (tag[k] and x != y) {
-            sum[k * 2] += tag[k] * (mid - x + 1);
-            sum[k * 2 + 1] += tag[k] * (y - mid);
-            tag[k * 2] += tag[k];
-            tag[k * 2 + 1] += tag[k];
-            tag[k] = 0;
+        if (tree[x].t) {
+            pushdown(x, l, r);
         }
-        if (l <= mid) {
-            mod(k * 2, l, r, x, mid, c);
+        const int mid = (l + r) >> 1;
+        if (ml <= mid) {
+            add(lc, l, mid, ml, mr, k);
         }
-        if (r > mid) {
-            mod(k * 2 + 1, l, r, mid + 1, y, c);
+        if (mid < mr) {
+            add(rc, mid + 1, r, ml, mr, k);
         }
-        sum[k] = sum[k * 2] + sum[k * 2 + 1];
+        update(x);
     }
 }
 
-/*
-    @param k: 当前节点位置
-    @param l: 查询范围左端点
-    @param r: 查询范围右端点
-    @param x: 线段树左端点
-    @param y: 线段树右端点
-*/
-long long query(int k, int l, int r, int x, int y) {
-    if (l <= x and y <= r) {
-        return sum[k];
+ll SegTree::query(uint x, int l, int r, int ql, int qr) {
+    if (ql <= l and r <= qr) {
+        return tree[x].a;
+    } else {
+        const int mid = (l + r) >> 1;
+        if (tree[x].t) {
+            pushdown(x, l, r);
+        }
+        ll res{};
+        if (ql <= mid) {
+            res += query(lc, l, mid, ql, qr);
+        }
+        if (mid < qr) {
+            res += query(rc, mid + 1, r, ql, qr);
+        }
+        return res;
     }
-    long long mid = (x + y) / 2;
-    if (tag[k]) {
-        sum[k * 2] += tag[k] * (mid - x + 1);
-        sum[k * 2 + 1] += tag[k] * (y - mid);
-        tag[k * 2] += tag[k];
-        tag[k * 2 + 1] += tag[k];
-        tag[k] = 0;
-    }
-    long long res = 0;
-    if (l <= mid) {
-        res = query(k * 2, l, r, x, mid);
-    }
-    if (r > mid) {
-        res += query(k * 2 + 1, l, r, mid + 1, y);
-    }
-    return res;
 }
+
+#undef lc
+#undef rc
