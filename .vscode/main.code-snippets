@@ -1,0 +1,71 @@
+{
+    // Place your cpp-code 工作区 snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+    // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+    // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+    // used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+    // Placeholders with the same ids are connected.
+    // Example:
+    // "Print to console": {
+    // 	"scope": "javascript,typescript",
+    // 	"prefix": "log",
+    // 	"body": [
+    // 		"console.log('$1');",
+    // 		"$2"
+    // 	],
+    // 	"description": "Log output to console"
+    // }
+    "main": {
+        "scope": "cpp",
+        "prefix": "main",
+        "body": [
+            "#include <cstdio>",
+            "#include <iostream>",
+            "",
+            "template <typename T>",
+            "T read();",
+            "",
+            "template <typename T>",
+            "void read(T& t);",
+            "",
+            "template <typename T, typename... Args>",
+            "void read(T& t, Args&... rest);",
+            "",
+            "int main() {",
+            "    std::ios::sync_with_stdio(false);",
+            "",
+            "    $0",
+            "",
+            "    std::cout << std::flush;",
+            "    return 0;",
+            "}",
+            "",
+            "template <typename T>",
+            "T read() {",
+            "    T x{}, f{1};",
+            "    int ch = getchar_unlocked();",
+            "    while (!isdigit(ch)) {",
+            "        if (ch == '-') f = -1;",
+            "        ch = getchar_unlocked();",
+            "    }",
+            "    while (isdigit(ch)) {",
+            "        x = x * 10 + ch - 48;",
+            "        ch = getchar_unlocked();",
+            "    }",
+            "    return x * f;",
+            "}",
+            "",
+            "template <typename T>",
+            "void read(T& t) {",
+            "    t = read<T>();",
+            "}",
+            "",
+            "template <typename T, typename... Args>",
+            "void read(T& t, Args&... rest) {",
+            "    t = read<T>();",
+            "    read(rest...);",
+            "}"
+        ],
+        "description": "main for cp"
+    }
+}

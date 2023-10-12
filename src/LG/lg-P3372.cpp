@@ -123,3 +123,29 @@ ll SegTree::query(uint x, int l, int r, int ql, int qr) {
 
 #undef lc
 #undef rc
+
+template <typename T>
+T read() {
+    T x = 0, f = 1;
+    char ch = getchar_unlocked();
+    while (!isdigit(ch)) {
+        if (ch == '-') f = -1;
+        ch = getchar_unlocked();
+    }
+    while (isdigit(ch)) {
+        x = x * 10 + ch - 48;
+        ch = getchar_unlocked();
+    }
+    return x * f;
+}
+
+template <typename T>
+void read(T& t) {
+    t = read<T>();
+}
+
+template <typename T, typename... Args>
+void read(T& t, Args&... rest) {
+    t = read<T>();
+    read(rest...);
+}
