@@ -1,14 +1,16 @@
 #include <algorithm>
-#include <climits>
+#include <cmath>
 #include <cstdio>
+#include <deque>
 #include <iostream>
 
-constexpr int MAX_N = 100050;
+using db = double;
 
-int n;
-int d[MAX_N];
+constexpr int MAX_N = 1000050;
+constexpr int INF = 5e8;
 
-bool check(int x, int e);
+int a[MAX_N];
+int f[MAX_N], g[MAX_N];
 
 template <typename T>
 T read();
@@ -22,57 +24,42 @@ void read(T& t, Args&... rest);
 int main() {
     std::ios::sync_with_stdio(false);
 
+    int n;
     read(n);
     for (int i = 1; i <= n; i++) {
-        read(d[i]);
+        read(a[i]);
     }
-    std::sort(d + 1, d + n + 1);
+    std::sort(a + 1, a + n + 1);
 
-    int ans{INT_MAX};
-    for (int i = 1; i <= n; i++) {
-        int l{0}, r{800000000};
-        while (l < r) {
-            const auto mid = (l + r) >> 1;
-            if (check(i, mid)) {
-                r = mid;
-            } else {
-                l = mid + 1;
+    {
+        int p{1};
+        for (int i = 2; i <= n; i++) {
+            f[i] = INF;
+            while (a[i] - a[p + 1] >= (int)((1.0 * f[p + 1] * 3 + 1.0) / 2)) {
+                p++;
             }
+            f[i] = std::min((int)((1.0 * f[p + 1] * 3 + 1.0) / 2), a[i] - a[p]);
         }
-        ans = std::min(ans, l);
+    }
+    {
+        int p{n};
+        for (int i = n - 1; i >= 1; i--) {
+            g[i] = INF;
+            while (a[p - 1] - a[i] >= (int)((1.0 * g[p - 1] * 3 + 1.0) / 2)) {
+                p--;
+            }
+            g[i] = std::min((int)((1.0 * g[p - 1] * 3 + 1.0) / 2), a[p] - a[i]);
+        }
+    }
+
+    int ans{INF};
+    for (int i = 1; i <= n; i++) {
+        ans = std::min(ans, std::max(f[i], g[i]));
     }
     std::cout << ans << '\n';
 
     std::cout << std::flush;
     return 0;
-}
-
-bool check(int x, int e) {
-    {
-        int c{x}, p{e};
-        for (int i = x + 1; i <= n; i++) {
-            if (d[i] - d[c] > p) {
-                return false;
-            }
-            if (p * 2 / 3 > p - (d[i] - d[c])) {
-                p = p * 2 / 3;
-                c = i;
-            }
-        }
-    }
-    {
-        int c{x}, p{e};
-        for (int i = x - 1; i >= 1; i--) {
-            if (d[c] - d[i] > p) {
-                return false;
-            }
-            if (p * 2 / 3 > p - (d[c] - d[i])) {
-                p = p * 2 / 3;
-                c = i;
-            }
-        }
-    }
-    return true;
 }
 
 template <typename T>
